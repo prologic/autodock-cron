@@ -1,0 +1,9 @@
+cronex
+
+# autodock
+# Development version of autodock
+-e git+https://github.com/prologic/autodock.git#egg=autodock
+
+# circuits
+# Development version of circuits
+-e git+https://github.com/circuits/circuits.git#egg=circuits
