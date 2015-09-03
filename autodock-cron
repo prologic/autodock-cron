@@ -123,18 +123,13 @@ class Cron(Plugin):
 
         self.scheduler.delete(id)
 
-    def container_started(self, event, **data):
-        logging.info("Container {} started".format(data["id"][:10]))
-
-        self._add_container(data["id"])
-
     def container_created(self, event, **data):
         logging.info("Container {} created".format(data["id"][:10]))
 
         self._add_container(data["id"])
 
-    def container_removed(self, event, **data):
-        logging.info("Container {} removed".format(data["id"][:10]))
+    def container_destroyed(self, event, **data):
+        logging.info("Container {} destroyed".format(data["id"][:10]))
 
         self._remove_container(data["id"])
 
