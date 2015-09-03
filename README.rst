@@ -28,4 +28,9 @@ Run a container of your choice and set ``CRON=*/1 * * * *`` to run every minute:
     $ docker run -e CRON="*/1 * * * *" busybox sh -c 'echo Hello'
 
 Now autodock-cron will schedule a timer to re-run this container every minute
-until the container is deleted and removed.
+until the container is deleted and removed. After about ~3mins you should get::
+    
+    $ docker logs hello
+    Hello
+    Hello
+    Hello
