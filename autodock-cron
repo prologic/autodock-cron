@@ -91,7 +91,7 @@ class Cron(Plugin):
 
         self.scheduler = Scheduler(self.rpc).register(self)
 
-        map(self._add_container, map(itemgetter("Id"), self.rpc.docker("containers", True)))
+        map(self._add_container, map(itemgetter("Id"), self.rpc.docker("containers", True, True)))
 
     def _add_container(self, id):
         if id in self.scheduler:
