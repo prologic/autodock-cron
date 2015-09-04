@@ -23,6 +23,10 @@ Start the daemon::
     
     $ docker run -d --name autodock prologic/autodock
 
+Link and start an autodock plugin::
+    
+    $ docker run -i -t --link autodock prologic/autodock-cron
+
 Run a container of your choice and set ``CRON=*/1 * * * *`` to run every minute::
     
     $ docker run -e CRON="*/1 * * * *" busybox sh -c 'echo Hello'
