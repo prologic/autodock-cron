@@ -1,6 +1,10 @@
 autodock-cron
 =============
 
+.. image:: https://badge.imagelayers.io/prologic/autodock-cron:latest.svg
+   :target: https://imagelayers.io/?images=prologic/autodock-cron:latest
+   :alt: Image Layers
+
 Cron-like Plugin for autodock.
 
 This plugin runs containers on a regular scheduled as defined by

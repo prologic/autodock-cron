@@ -1,6 +1,8 @@
 autodock-cron
 =============
 
+[![Image Layers](https://badge.imagelayers.io/prologic/autodock-cron:latest.svg)](https://imagelayers.io/?images=prologic/autodock-cron:latest)
+
 Cron-like Plugin for autodock.
 
 This plugin runs containers on a regular scheduled as defined by the environment variable `CRON` of the form `m h d mon dow` much like crond on many Linux/UNIX systems.
