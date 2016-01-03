@@ -109,7 +109,12 @@ class Cron(Plugin):
     def _get_container_info(self, id):
         info = self.rpc.docker("inspect_container", id)
 
-        env = dict(map(ENV_REGEX.split, info["Config"]["Env"] or []))
+        env = dict(
+            map(
+                ENV_REGEX.split,
+                info.get("Config", {}).get("Env", []) or []
+            )
+        )
 
         cron = env.get("CRON", "")
 
