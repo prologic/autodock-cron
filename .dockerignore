@@ -3,6 +3,6 @@
 dist
 build
 *.py[co]
-*.egg-info
 Dockerfile
+*.egg-info
 .dockerignore

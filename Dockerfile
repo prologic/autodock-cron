@@ -1,11 +1,23 @@
-FROM prologic/autodock
+# Build
+FROM golang:alpine AS build
 
-ENTRYPOINT ["autodock-cron"]
+ENV PLUGIN autodock-cron
+
+RUN apk add --update git make build-base && \
+    rm -rf /var/cache/apk/*
+
+WORKDIR /go/src/${PLUGIN}
+COPY . /go/src/${PLUGIN}
+RUN make build
+
+# Runtime
+FROM scratch
+
+ENV PLUGIN autodock-cron
+
+LABEL autodock.app main
+
+COPY --from=build /go/src/${PLUGIN}/${PLUGIN} /${PLUGIN}
+
+ENTRYPOINT ["/autodock-cron"]
 CMD []
-
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt && rm /tmp/requirements.txt
-
-WORKDIR /app
-COPY . /app/
-RUN pip install .

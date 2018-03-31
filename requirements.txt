@@ -1,3 +1,0 @@
-cronex
-# git+https://github.com/prologic/autodock#egg=autodock
-# git+https://github.com/circuits/circuits#egg=circuits

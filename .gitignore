@@ -1,5 +1,3 @@
 *~
-dist
-build
-*.py[co]
-*.egg-info
+*.bak
+autodock-cron

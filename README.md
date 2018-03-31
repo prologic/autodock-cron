@@ -1,38 +1,44 @@
-autodock-cron
-=============
+# autodock-cron
 
 [![Image Layers](https://badge.imagelayers.io/prologic/autodock-cron:latest.svg)](https://imagelayers.io/?images=prologic/autodock-cron:latest)
 
-Cron-like Plugin for autodock.
+Cron plugin for autodock. autodock-cron is a cron-like plugin for autodock
+which watches for `contaienr` and `service` startup events and reschedules
+those contaienrs and services according to their configured schedule. THe
+schedule is configured by container or service labels of the form:
 
-This plugin runs containers on a regular scheduled as defined by the environment variable `CRON` of the form `m h d mon dow` much like crond on many Linux/UNIX systems.
+```#!yaml
+    deploy:
+      labels:
+        - "autodock.cron.schedule=*/5"
+```
 
-The container must first be run at least once for `autodock-cron` to pick up the new container and its configuration.
-
-Note that `autodock-cron` makes use of the Docker API and effectively calls `docker start` on your container; a new container is **NOT** created on very run of the schedule.
+autodock-cron is MIT licensed.
 
 > **note**
 >
-> See: [autodock](https://github.com/prologic/autodock)
+> Please see [autodock](https://github.com/prologic/autodock) for the main project and file issues there.
 
-Basic Usage
------------
+## Building
 
-Start the daemon:
+From source:
+```#!bash
+$ go build .
+```
 
-    $ docker run -d --name autodock prologic/autodock
+Using Docker:
+```#!bash
+$ docker build -t autodock-cron .
+```
 
-Link and start an autodock plugin:
+## Usage
 
-    $ docker run -d --link autodock prologic/autodock-cron
+From source:
+```#!bash
+$ ./autodock-cron -h <autodock_host>
+```
 
-Run a container of your choice and set `CRON=*/1 * * * *` to run every minute:
-
-    $ docker run --name hello -e CRON="*/1 * * * *" busybox sh -c 'echo Hello'
-
-Now autodock-cron will schedule a timer to re-run this container every minute until the container is deleted and removed. After about ~3mins you should get:
-
-    $ docker logs hello
-    Hello
-    Hello
-    Hello
+Using Docker:
+```#!bash
+$ docker run -d autodock-cron -H <autodock_host>
+```
