@@ -10,7 +10,7 @@ BUILD?=-dev
 all: dev
 
 dev: build
-	@./$(APP) -d
+	@./$(APP) -debug
 
 deps:
 	@go get ./...
