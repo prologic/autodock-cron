@@ -37,25 +37,27 @@ var CronPlugin = &plugin.Plugin{
 				return err
 			}
 
-			cid := evt.ID
-
-			switch evt.Action {
-			case "create":
-				log.Infof("container creaed: %#v", evt)
-				err, val := ctx.GetLabel(cid, Key)
-				if err != nil {
-					log.Errorf("error getting container label: %s", err)
-				} else if val == "" {
-					log.Warnf(
-						"ignoring container %s with no valid label",
-						cid[len(cid)-10:],
-					)
-				} else {
-					c.AddFunc(val, func() {
-						ctx.StartContainer(cid)
-					})
-				}
+			if evt.Action != "create" {
+				return nil
 			}
+
+			cid := evt.ID
+			scid := cid[len(cid)-10:]
+
+			log.Infof("container %s creaed: %#v", scid, evt)
+
+			schedule, ok := evt.Actor.Attributes[Key]
+			if !ok || schedule == "" {
+				log.Warnf("ignoring container %s with no valid label", scid)
+				return nil
+			}
+
+			c.AddFunc(schedule, func() {
+				err := ctx.StartContainer(cid)
+				if err != nil {
+					log.Errorf("error starting container %s: %s", scid, err)
+				}
+			})
 
 			return nil
 		})
