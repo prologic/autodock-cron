@@ -18,12 +18,12 @@ deps:
 build: clean deps
 	@go build -tags "netgo static_build" -installsuffix netgo .
 
-image:
+image: clean deps
 	@docker build -t $(REPO):$(TAG) .
 	@echo "Image created: $(REPO):$(TAG)"
 
-test:
-	@go test -v -cover -race $(TEST_ARGS)
+test: clean deps
+	@go test -v -cover -race $(TEST_ARGS) ./...
 
 clean:
 	@rm -rf $(APP)
