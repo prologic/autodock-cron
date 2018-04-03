@@ -21,7 +21,7 @@ const Key = "autodock.cron.schedule"
 // CronPlugin ...
 var CronPlugin = &plugin.Plugin{
 	Name:    "CronPlugin",
-	Version: "0.0.3",
+	Version: "0.0.4",
 	Description: `CronPlugin is a cron-like plugin for autodock which watches
 	for contaienr and service startup events and reschedules those
 	contaienrs and services according to their configured schedule.`,
