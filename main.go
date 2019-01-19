@@ -16,7 +16,7 @@ import (
 )
 
 // Key ...
-const Key = "autodock.cron.schedule"
+const Key = "autodock.cron"
 
 // CronPlugin ...
 var CronPlugin = &plugin.Plugin{
@@ -36,6 +36,8 @@ var CronPlugin = &plugin.Plugin{
 				log.Errorf("error decoding payload: %s", err)
 				return err
 			}
+
+			log.Debug(evt)
 
 			if evt.Action != "create" {
 				return nil
