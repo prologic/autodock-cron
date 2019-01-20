@@ -2,9 +2,8 @@ module github.com/prologic/autodock-cron
 
 require (
 	github.com/docker/distribution v2.7.1+incompatible // indirect
-	github.com/docker/docker v0.0.0-20170601211448-f5ec1e2936dc
+	github.com/docker/docker v0.7.3-0.20190111153827-295413c9d0e1
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
-	github.com/gogo/protobuf v1.2.0 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/prologic/autodock v0.0.0-20190119023336-695d61763365
 	github.com/prometheus/client_model v0.0.0-20190115171406-56726106282f // indirect
@@ -19,3 +18,5 @@ require (
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
+
+replace github.com/prologic/autodock => ../autodock

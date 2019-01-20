@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"os"
 	"os/signal"
@@ -9,7 +10,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/events"
+	"github.com/docker/docker/api/types/filters"
 	"github.com/robfig/cron"
 
 	"github.com/prologic/autodock/plugin"
@@ -37,14 +40,12 @@ var CronPlugin = &plugin.Plugin{
 				return err
 			}
 
-			log.Debug(evt)
-
 			if evt.Action != "create" {
 				return nil
 			}
 
 			cid := evt.ID
-			scid := cid[len(cid)-10:]
+			scid := cid[:10]
 
 			log.Infof("container %s creaed: %#v", scid, evt)
 
@@ -54,15 +55,59 @@ var CronPlugin = &plugin.Plugin{
 				return nil
 			}
 
-			c.AddFunc(schedule, func() {
+			err = c.AddFunc(schedule, func() {
 				err := ctx.StartContainer(cid)
 				if err != nil {
 					log.Errorf("error starting container %s: %s", scid, err)
 				}
 			})
+			if err != nil {
+				log.Errorf(
+					"error adding schedule %s for container %s: %s",
+					schedule, scid, err,
+				)
+				return err
+			}
 
 			return nil
 		})
+
+		args := filters.NewArgs(
+			filters.Arg("label", Key),
+		)
+		containers, err := ctx.Docker().ContainerList(
+			context.Background(),
+			types.ContainerListOptions{
+				All:     true,
+				Filters: args,
+			},
+		)
+		if err != nil {
+			log.Errorf("error listing containers: %s", err)
+		} else {
+			for _, container := range containers {
+				cid := container.ID
+				scid := cid[:10]
+				schedule := container.Labels[Key]
+
+				log.Infof(
+					"found existing container %s running %s with schedule %s",
+					scid, container.Image, schedule,
+				)
+				err = c.AddFunc(schedule, func() {
+					err := ctx.StartContainer(cid)
+					if err != nil {
+						log.Errorf("error starting container %s: %s", scid, err)
+					}
+				})
+				if err != nil {
+					log.Errorf(
+						"error adding schedule %s for container %s: %s",
+						schedule, scid, err,
+					)
+				}
+			}
+		}
 
 		sigs := make(chan os.Signal, 1)
 		signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
