@@ -1,6 +1,6 @@
 # autodock-cron
 
-[![Build Status](https://cloud.drone.io/api/badges/prologic/autodock/status.svg)](https://cloud.drone.io/prologic/autodock)
+[![Build Status](https://cloud.drone.io/api/badges/prologic/autodock-cron/status.svg)](https://cloud.drone.io/prologic/autodock-cron)
 
 Cron plugin for autodock. autodock-cron is a cron-like plugin for autodock
 which watches for `container` and `service` startup events and reschedules
