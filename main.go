@@ -56,7 +56,11 @@ var CronPlugin = &plugin.Plugin{
 			}
 
 			err = c.AddFunc(schedule, func() {
-				err := ctx.StartContainer(cid)
+				err := ctx.Docker().ContainerStart(
+					context.Background(),
+					cid,
+					types.ContainerStartOptions{},
+				)
 				if err != nil {
 					log.Errorf("error starting container %s: %s", scid, err)
 				}
@@ -95,7 +99,11 @@ var CronPlugin = &plugin.Plugin{
 					scid, container.Image, schedule,
 				)
 				err = c.AddFunc(schedule, func() {
-					err := ctx.StartContainer(cid)
+					err := ctx.Docker().ContainerStart(
+						context.Background(),
+						cid,
+						types.ContainerStartOptions{},
+					)
 					if err != nil {
 						log.Errorf("error starting container %s: %s", scid, err)
 					}
