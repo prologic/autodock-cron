@@ -9,7 +9,6 @@ schedule is configured by container or service labels of the form:
 
 :bulb: See [autodock](https://github.com/prologic/autodock) for more info.
 
-
 ## Building
 
 From source:
@@ -38,13 +37,13 @@ $ docker run -d autodock-cron -H <autodock_host>
 `autodock.cron=<schedule>` where schedule is a valid Cron-like
 expression of the form:
 
-- <seconds> <minutes> <hour> <dom> <month> <dow>
-- @yearly (or @annually)
-- @monthly
-- @weekly
-- @daily (or @midnight)
-- @hourly
-- @every <duration>
+- `<seconds> <minutes> <hour> <dom> <month> <dow>`
+- `@yearly` (or `@annually`)
+- `@monthly`
+- `@weekly`
+- `@daily` (or `@midnight`)
+- `@hourly`
+- `@every <duration>`
 
 where `<duration>` is a string accepted by
 [time.ParseDuration](http://golang.org/pkg/time/#ParseDuration) for example
